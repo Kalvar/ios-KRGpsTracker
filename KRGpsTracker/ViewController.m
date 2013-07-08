@@ -1,29 +1,49 @@
-## Screen Shot
+//
+//  ViewController.m
+//  KRGpsTracker V1.0
+//
+//  Created by Kalvar on 13/6/23.
+//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//
 
-<img src="https://dl.dropbox.com/u/83663874/GitHubs/KRGpsTracker-1.png" alt="KRGpsTracker" title="KRGpsTracker" style="margin: 20px;" class="center" /> &nbsp;
-<img src="https://dl.dropbox.com/u/83663874/GitHubs/KRGpsTracker-2.png" alt="KRGpsTracker" title="KRGpsTracker" style="margin: 20px;" class="center" /> 
+#import "ViewController.h"
 
-## Supports
+@implementation ViewController
 
-KRGpsTracker supports ARC.
+@synthesize outMapView;
+@synthesize outToolStartTracking;
+@synthesize krGpsTracker = _krGpsTracker;
 
-## How To Get Started
-
-KRGpsTracker is a route tracker which records the route of running to show on MKMapView, and it can calculate the running info.
-
-``` objective-c
-#import "KRGpsTracker.h"
-
-@property (nonatomic, strong) KRGpsTracker *krGpsTracker;
-
+#pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    krGpsTracker = [[KRGpsTracker alloc] init];
+    _krGpsTracker = [[KRGpsTracker alloc] init];
     self.krGpsTracker.mapView      = self.outMapView;
     self.krGpsTracker.trackingItem = self.outToolStartTracking;
     [self.krGpsTracker initialize];
     //self.krGpsTracker.resetItem;
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma My Methods
@@ -60,20 +80,10 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
 
 -(IBAction)selectMapMode:(id)sender
 {
-    //取得分割按鈕的個別按鈕索引
+    //取得分割按鈕的個別按鈕索引 : 目前是哪一個按鈕被按下
     int index = [sender selectedSegmentIndex];
     [self.krGpsTracker selectMapMode:index];
 }
-```
 
-## Version
 
-V1.0.
-
-## License
-
-MIT.
-
-## Others
-
-KRGpsTracker used an png image file of arrow from http://findicons.com/icon/202969/go_right, the image designed by deviantdark, thanks a lot. 
+@end
