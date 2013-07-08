@@ -11,7 +11,7 @@
 @implementation ViewController
 
 @synthesize outMapView;
-@synthesize outToolStartTracking;
+@synthesize outTrackingItem;
 @synthesize krGpsTracker = _krGpsTracker;
 
 #pragma mark - View lifecycle
@@ -20,7 +20,7 @@
     [super viewDidLoad];
     _krGpsTracker = [[KRGpsTracker alloc] init];
     self.krGpsTracker.mapView      = self.outMapView;
-    self.krGpsTracker.trackingItem = self.outToolStartTracking;
+    self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
     //self.krGpsTracker.resetItem;
 }

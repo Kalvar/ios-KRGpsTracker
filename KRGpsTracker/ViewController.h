@@ -15,7 +15,7 @@
 }
 
 @property (nonatomic, weak) IBOutlet MKMapView *outMapView;
-@property (nonatomic, weak) IBOutlet UIBarButtonItem *outToolStartTracking;
+@property (nonatomic, weak) IBOutlet UIBarButtonItem *outTrackingItem;
 @property (nonatomic, strong) KRGpsTracker *krGpsTracker;
 
 -(IBAction)toggleTracking:(id)sender;

@@ -21,7 +21,7 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
     [super viewDidLoad];
     krGpsTracker = [[KRGpsTracker alloc] init];
     self.krGpsTracker.mapView      = self.outMapView;
-    self.krGpsTracker.trackingItem = self.outToolStartTracking;
+    self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
     //self.krGpsTracker.resetItem;
 }
