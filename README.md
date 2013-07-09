@@ -76,4 +76,4 @@ MIT.
 
 ## Others
 
-KRGpsTracker used an png image file of arrow from http://findicons.com/icon/202969/go_right, the image designed by deviantdark, thanks a lot. 
+KRGpsTracker used png image files of arrow from http://www.kenlaiweb.com/, the image designed by Kenlai Li, thanks a lot. 

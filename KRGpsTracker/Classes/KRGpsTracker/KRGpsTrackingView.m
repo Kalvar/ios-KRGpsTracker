@@ -105,7 +105,7 @@
             if( distance >= _arrowThresold )
             {
                 //開始繪製路線與箭頭
-                UIImage *image = [self _imageNameNoCache:@"arrow.png"];
+                UIImage *image = [self _imageNameNoCache:@"arrow_2.png"];
                 CGPoint middle = CGPointMake((point.x + lastPoint.x) / 2,
                                              (point.y + lastPoint.y) / 2);
                 CGRect frame = CGRectMake( ( middle.x - image.size.width / 2 ),

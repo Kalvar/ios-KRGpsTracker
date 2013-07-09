@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8EF0BD6317894196003DDFD6 /* KRGpsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */; };
-		8EF558FD1789B1D600B3F563 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF558FB1789B1D600B3F563 /* arrow.png */; };
-		8EF558FE1789B1D600B3F563 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF558FC1789B1D600B3F563 /* arrow@2x.png */; };
+		8EF48302178B8F1A0038DB64 /* arrow_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FE178B8F1A0038DB64 /* arrow_1.png */; };
+		8EF48303178B8F1A0038DB64 /* arrow_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */; };
+		8EF48304178B8F1A0038DB64 /* arrow_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF48300178B8F1A0038DB64 /* arrow_2.png */; };
+		8EF48305178B8F1A0038DB64 /* arrow_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF48301178B8F1A0038DB64 /* arrow_2@2x.png */; };
 		8EF559011789B5EB00B3F563 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF559001789B5EB00B3F563 /* CoreLocation.framework */; };
 		8EF559031789B5EF00B3F563 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF559021789B5EF00B3F563 /* MapKit.framework */; };
 		8EF7FA1217893D4B00DC99FF /* KRGpsTrackingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7FA1117893D4B00DC99FF /* KRGpsTrackingView.m */; };
@@ -29,8 +31,10 @@
 /* Begin PBXFileReference section */
 		8EF0BD6117894196003DDFD6 /* KRGpsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTracker.h; sourceTree = "<group>"; };
 		8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTracker.m; sourceTree = "<group>"; };
-		8EF558FB1789B1D600B3F563 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
-		8EF558FC1789B1D600B3F563 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		8EF482FE178B8F1A0038DB64 /* arrow_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_1.png; sourceTree = "<group>"; };
+		8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_1@2x.png"; sourceTree = "<group>"; };
+		8EF48300178B8F1A0038DB64 /* arrow_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_2.png; sourceTree = "<group>"; };
+		8EF48301178B8F1A0038DB64 /* arrow_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_2@2x.png"; sourceTree = "<group>"; };
 		8EF559001789B5EB00B3F563 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8EF559021789B5EF00B3F563 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8EF7FA1017893D4B00DC99FF /* KRGpsTrackingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTrackingView.h; sourceTree = "<group>"; };
@@ -159,8 +163,10 @@
 		8EFB585A177718E3000DE086 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				8EF558FB1789B1D600B3F563 /* arrow.png */,
-				8EF558FC1789B1D600B3F563 /* arrow@2x.png */,
+				8EF482FE178B8F1A0038DB64 /* arrow_1.png */,
+				8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */,
+				8EF48300178B8F1A0038DB64 /* arrow_2.png */,
+				8EF48301178B8F1A0038DB64 /* arrow_2@2x.png */,
 			);
 			name = Images;
 			path = KRGpsTracker/Images;
@@ -222,8 +228,10 @@
 				8EFB584A177718B6000DE086 /* Default@2x.png in Resources */,
 				8EFB584C177718B6000DE086 /* Default-568h@2x.png in Resources */,
 				8EFB5852177718B6000DE086 /* ViewController.xib in Resources */,
-				8EF558FD1789B1D600B3F563 /* arrow.png in Resources */,
-				8EF558FE1789B1D600B3F563 /* arrow@2x.png in Resources */,
+				8EF48302178B8F1A0038DB64 /* arrow_1.png in Resources */,
+				8EF48303178B8F1A0038DB64 /* arrow_1@2x.png in Resources */,
+				8EF48304178B8F1A0038DB64 /* arrow_2.png in Resources */,
+				8EF48305178B8F1A0038DB64 /* arrow_2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
