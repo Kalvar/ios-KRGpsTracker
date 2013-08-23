@@ -39,6 +39,8 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
     CGFloat speedMilesPerHour;
     //在結束時秀出行進數據的 Alert
     BOOL showCompletionAlert;
+    //指北針的按鈕
+    UIButton *headingButton;
 }
 
 @property (nonatomic, strong) MKMapView *mapView;
@@ -57,6 +59,7 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
 @property (nonatomic, assign) CGFloat speedKilometersPerHour;
 @property (nonatomic, assign) CGFloat speedMilesPerHour;
 @property (nonatomic, assign) BOOL showCompletionAlert;
+@property (nonatomic, strong) UIButton *headingButton;
 
 
 +(KRGpsTracker *)sharedManager;

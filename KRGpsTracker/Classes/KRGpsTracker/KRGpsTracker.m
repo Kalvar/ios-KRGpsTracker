@@ -18,6 +18,9 @@
 
 -(void)_initWithVars;
 -(void)_remove;
+-(UIImage *)_imageNoCacheWithName:(NSString *)_imageName;
+-(void)_headingButtonAction:(id)_sender;
+-(void)_makeHeadingIconButton;
 
 @end
 
@@ -33,6 +36,7 @@
     self.speedKilometersPerHour = 0.0f;
     self.speedMilesPerHour      = 0.0f;
     self.showCompletionAlert    = NO;
+    self.headingButton          = nil;
 }
 
 -(void)_remove
@@ -43,6 +47,35 @@
         [self._trackingMapView removeFromSuperview];
         self._trackingMapView = nil;
     }
+}
+
+-(UIImage *)_imageNoCacheWithName:(NSString *)_imageName
+{
+    return [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] bundlePath], _imageName]];
+}
+
+-(void)_headingButtonAction:(id)_sender
+{
+    // ... customize something you wanna do.
+}
+
+-(void)_makeHeadingIconButton
+{
+    if( self.headingButton )
+    {
+        if( self.headingButton.superview == self.mapView )
+        {
+            [self.headingButton removeFromSuperview];
+        }
+    }
+    UIImage *_image = [self _imageNoCacheWithName:@"arrow_heading.png"];
+    headingButton   = [UIButton buttonWithType:UIButtonTypeCustom];
+    [headingButton setFrame:CGRectMake(5.0f, 5.0f, _image.size.width, _image.size.height)];
+    [headingButton setImage:_image forState:UIControlStateNormal];
+    [headingButton addTarget:self
+                      action:@selector(_headingButtonAction:)
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.mapView addSubview:headingButton];
 }
 
 @end
@@ -65,6 +98,7 @@
 @synthesize speedKilometersPerHour;
 @synthesize speedMilesPerHour;
 @synthesize showCompletionAlert;
+@synthesize headingButton;
 //
 @synthesize _trackingMapView;
 
@@ -97,8 +131,10 @@
     _trackingMapView = [[KRGpsTrackingView alloc] initWithFrame:self.mapView.frame];
     _trackingMapView.superMapView = self.mapView;
     //NSLog(@"self.subviews : %@", self.mapView.subviews);
+    //將 trackingMapView 寫在 MapView 的觸碰控制層底下，這樣就能避免無法操作手勢的問題
     [[[self.mapView subviews] objectAtIndex:0] addSubview:_trackingMapView];
     //[self.mapView addSubview:_trackingMapView];
+    [self _makeHeadingIconButton];
     //設定 MapView 的委派
     self.mapView.delegate          = self._trackingMapView;
     //允許縮放地圖
@@ -176,7 +212,10 @@
     if( isTracking )
     {
         [self stop];
-        _completionHandler(self.ranMeters, self.ranKilometers, self.ranMiles, self.speedKilometersPerHour, self.speedMilesPerHour);
+        if( _completionHandler )
+        {
+            _completionHandler(self.ranMeters, self.ranKilometers, self.ranMiles, self.speedKilometersPerHour, self.speedMilesPerHour);
+        }
         if( self.showCompletionAlert )
         {
             NSString *_message = [NSString stringWithFormat:@"Distance : %.02f km, %.02f mi.\nSpeed: %.02f km/h, %.02f mi/h",
@@ -271,17 +310,32 @@
 }
 
 /*
- * 取得 GPS 羅盤方向 (以角度為單位，以順時針計算) : 正北方 0 度 / 正東方 90 度 / 正南方 180 度 / 正西方 270 度
+ * @ 取得 GPS 羅盤方向 (以角度為單位，以順時針計算)
+ *   - 正北方 0   度
+ *   - 正東方 90  度
+ *   - 正南方 180 度
+ *   - 正西方 270 度
  */
 //當 CLLocationManager 取得更新後的方向資訊時觸發
 -(void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
     //將真北的角度轉成弧度
     float rotation = newHeading.trueHeading * M_PI / 180;
+    //依照指北針的角度同步旋轉 MapView 向北
+    //也能放上一個指北針的圖，旋轉它就行
+    if( self.headingButton )
+    {
+        self.headingButton.transform = CGAffineTransformIdentity;
+        CGAffineTransform transForm  = CGAffineTransformMakeRotation(-rotation);
+        self.headingButton.transform = transForm;
+    }
+    
+    /*
     //動態變換整個地圖的顯示方向
     self.mapView.transform      = CGAffineTransformIdentity;
     CGAffineTransform transForm = CGAffineTransformMakeRotation(-rotation);
     self.mapView.transform      = transForm;
+     */
     //[self.outMapView setNeedsDisplay];
 }
 
@@ -289,7 +343,7 @@
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     [self stop];
-    NSLog(@"LocationManager failed, The Error Code : %i \n", [error code]);
+    //NSLog(@"LocationManager failed, The Error Code : %i \n", [error code]);
 }
 
 @end

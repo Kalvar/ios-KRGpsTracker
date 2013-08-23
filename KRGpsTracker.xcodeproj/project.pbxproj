@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8EA1866517C7658700E55FBF /* arrow_heading.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866317C7658600E55FBF /* arrow_heading.png */; };
+		8EA1866617C7658700E55FBF /* arrow_heading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866417C7658600E55FBF /* arrow_heading@2x.png */; };
 		8EF0BD6317894196003DDFD6 /* KRGpsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */; };
 		8EF48302178B8F1A0038DB64 /* arrow_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FE178B8F1A0038DB64 /* arrow_1.png */; };
 		8EF48303178B8F1A0038DB64 /* arrow_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */; };
@@ -29,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8EA1866317C7658600E55FBF /* arrow_heading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_heading.png; sourceTree = "<group>"; };
+		8EA1866417C7658600E55FBF /* arrow_heading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_heading@2x.png"; sourceTree = "<group>"; };
 		8EF0BD6117894196003DDFD6 /* KRGpsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTracker.h; sourceTree = "<group>"; };
 		8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTracker.m; sourceTree = "<group>"; };
 		8EF482FE178B8F1A0038DB64 /* arrow_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_1.png; sourceTree = "<group>"; };
@@ -163,6 +167,8 @@
 		8EFB585A177718E3000DE086 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8EA1866317C7658600E55FBF /* arrow_heading.png */,
+				8EA1866417C7658600E55FBF /* arrow_heading@2x.png */,
 				8EF482FE178B8F1A0038DB64 /* arrow_1.png */,
 				8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */,
 				8EF48300178B8F1A0038DB64 /* arrow_2.png */,
@@ -232,6 +238,8 @@
 				8EF48303178B8F1A0038DB64 /* arrow_1@2x.png in Resources */,
 				8EF48304178B8F1A0038DB64 /* arrow_2.png in Resources */,
 				8EF48305178B8F1A0038DB64 /* arrow_2@2x.png in Resources */,
+				8EA1866517C7658700E55FBF /* arrow_heading.png in Resources */,
+				8EA1866617C7658700E55FBF /* arrow_heading@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +340,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
@@ -344,6 +354,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
