@@ -67,5 +67,6 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
 -(void)stopTrackingWithCompletionHandler:(TrackingCompleted)_completionHandler;
 -(void)resetMap;
 -(void)selectMapMode:(MKMapType)selectedMapType;
+-(BOOL)isMultitaskingSupported;
 
 @end

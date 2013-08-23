@@ -12,7 +12,6 @@
 
 @property (nonatomic, strong) KRGpsTrackingView *_trackingMapView;
 
-
 @end
 
 @interface KRGpsTracker (fixPrivate)
@@ -223,6 +222,20 @@
     }
 }
 
+/*
+ * @ 判斷 App 是否被允許運作於背景執行 ( 多工 )
+ *   - Judges app allow running in background.
+ */
+-(BOOL)isMultitaskingSupported
+{
+    BOOL _isSupported = NO;
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+    {
+        _isSupported = [[UIDevice currentDevice] isMultitaskingSupported];
+    }
+    return _isSupported;
+}
+
 #pragma MapViewDelegate
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
@@ -230,6 +243,7 @@
     return nil;
 }
 
+#pragma CLLocationManagerDelegate
 //當使用者取得新的地理位置資訊後觸發
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
