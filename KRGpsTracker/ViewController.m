@@ -22,6 +22,25 @@
     self.krGpsTracker.mapView      = self.outMapView;
     self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
+    
+    //This infoHandler Block will happen in location changed.
+    [self.krGpsTracker setChangeHandler:^(CGFloat meters, CGFloat seconds, CLLocation *location)
+    {
+         NSLog(@"meter : %f, seconds : %f, location : %f, %f", meters, seconds, location.coordinate.latitude, location.coordinate.longitude);
+    }];
+    
+    //This realTimeHandler Block will happen in every second. ( 1 second to fire once. )
+    [self.krGpsTracker setRealTimeHandler:^(CGFloat meters, CGFloat seconds)
+    {
+        NSLog(@"meter : %f, seconds : %f", meters, seconds);
+    }];
+    
+    //This headingHandler Block will happen in your touching the heading-button on the left-top of map.
+    [self.krGpsTracker setHeadingHandler:^
+    {
+        NSLog(@"You Click the Heading-Button on the Map Left-Top.");
+    }];
+    
     //self.krGpsTracker.resetItem;
 }
 

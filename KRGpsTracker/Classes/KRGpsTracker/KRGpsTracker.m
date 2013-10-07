@@ -1,6 +1,6 @@
 //
 //  KRGpsTracker.m
-//  KRGpsTracker V1.0
+//  KRGpsTracker V1.1
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -11,6 +11,8 @@
 @interface KRGpsTracker ()
 
 @property (nonatomic, strong) KRGpsTrackingView *_trackingMapView;
+@property (nonatomic, strong) NSTimer *_timer;
+@property (nonatomic, assign) CGFloat _keepTime;
 
 @end
 
@@ -21,6 +23,9 @@
 -(UIImage *)_imageNoCacheWithName:(NSString *)_imageName;
 -(void)_headingButtonAction:(id)_sender;
 -(void)_makeHeadingIconButton;
+-(void)_keepCounting;
+-(void)_startTimer;
+-(void)_stopTimer;
 
 @end
 
@@ -37,6 +42,11 @@
     self.speedMilesPerHour      = 0.0f;
     self.showCompletionAlert    = NO;
     self.headingButton          = nil;
+    self.runningSeconds         = 0.0f;
+    self.changeHandler          = nil;
+    self.headingHandler         = nil;
+    self._timer                 = nil;
+    self._keepTime              = 0.0f;
 }
 
 -(void)_remove
@@ -57,6 +67,10 @@
 -(void)_headingButtonAction:(id)_sender
 {
     // ... customize something you wanna do.
+    if( self.headingHandler )
+    {
+        self.headingHandler();
+    }
 }
 
 -(void)_makeHeadingIconButton
@@ -76,6 +90,32 @@
                       action:@selector(_headingButtonAction:)
             forControlEvents:UIControlEventTouchUpInside];
     [self.mapView addSubview:headingButton];
+}
+
+#pragma --mark NSTimers
+-(void)_keepCounting
+{
+    ++self._keepTime;
+    if( self.realTimeHandler )
+    {
+        self.realTimeHandler(self.ranMeters, self._keepTime);
+    }
+}
+
+-(void)_startTimer
+{
+    [self _stopTimer];
+    self._timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_keepCounting) userInfo:nil repeats:YES];
+}
+
+-(void)_stopTimer
+{
+    if( self._timer )
+    {
+        [self._timer invalidate];
+        self._timer = nil;
+    }
+    self._keepTime  = 0.0f;
 }
 
 @end
@@ -99,8 +139,13 @@
 @synthesize speedMilesPerHour;
 @synthesize showCompletionAlert;
 @synthesize headingButton;
+@synthesize runningSeconds = _runningSeconds;
+@synthesize changeHandler  = _changeHandler;
+@synthesize headingHandler = _headingHandler;
 //
 @synthesize _trackingMapView;
+@synthesize _timer;
+
 
 +(KRGpsTracker *)sharedManager
 {
@@ -174,6 +219,8 @@
         locationManager.headingFilter = kCLHeadingFilterNone;
         //啟動指南針方向定位
         [locationManager startUpdatingHeading];
+        //啟動計時
+        [self _startTimer];
     }
 }
 
@@ -185,6 +232,7 @@
 
 -(void)stop
 {
+    [self _stopTimer];
     isTracking = NO;
     //啟動 iPhone 睡眠模式
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
@@ -196,17 +244,17 @@
     //移除蓋上來的 TrackingMapView
     //[self._trackingMapView removeFromSuperview];
     //允許 MapView 被捲動
-    self.mapView.scrollEnabled = YES;
+    self.mapView.scrollEnabled  = YES;
     //允許 MapView 被縮放
-    self.mapView.zoomEnabled   = YES;
-    CGFloat _time = -[startDate timeIntervalSinceNow];
+    self.mapView.zoomEnabled    = YES;
+    CGFloat _time               = self.runningSeconds;
     self.ranKilometers          = _ranMeters / 1000;
     self.ranMiles               = _ranMeters * 0.00062f;
     self.speedKilometersPerHour = _ranMeters * 3.6f / _time;
     self.speedMilesPerHour      = _ranMeters * 2.2369f / _time;
 }
 
--(void)stopTrackingWithCompletionHandler:(TrackingCompleted)_completionHandler
+-(void)stopTrackingWithCompletionHandler:(KRGpsTrackerCompletionHandler)_completionHandler
 {
     //正在 GPS 追蹤中
     if( isTracking )
@@ -263,7 +311,7 @@
 
 /*
  * @ 判斷 App 是否被允許運作於背景執行 ( 多工 )
- *   - Judges app allow running in background.
+ *   - Judges app allow running in the background.
  */
 -(BOOL)isMultitaskingSupported
 {
@@ -294,7 +342,10 @@
     {
         _ranMeters += [newLocation distanceFromLocation:oldLocation];
     }
-    
+    if( _changeHandler )
+    {
+        self.changeHandler(_ranMeters, self.runningSeconds, newLocation);
+    }
     /*
      * @ 指定顯示區域
      *
@@ -344,6 +395,12 @@
 {
     [self stop];
     //NSLog(@"LocationManager failed, The Error Code : %i \n", [error code]);
+}
+
+#pragma --mark Getter
+-(CGFloat)runningSeconds
+{
+    return -[startDate timeIntervalSinceNow];
 }
 
 @end

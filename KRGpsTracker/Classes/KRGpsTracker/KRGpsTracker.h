@@ -1,6 +1,6 @@
 //
 //  KRGpsTracker.h
-//  KRGpsTracker V1.0
+//  KRGpsTracker V1.1
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "KRGpsTrackingView.h"
 
-typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFloat ranMiles, CGFloat speedKilometersPerHour, CGFloat speedMilesPerHour);
+typedef void (^KRGpsTrackerCompletionHandler)(CGFloat ranMeters, CGFloat ranKilometers, CGFloat ranMiles, CGFloat speedKilometersPerHour, CGFloat speedMilesPerHour);
+typedef void (^KRGpsTrackerRealTimeHandler)(CGFloat meters, CGFloat seconds);
+typedef void (^KRGpsTrackerInfoHandler)(CGFloat meters, CGFloat seconds, CLLocation *location);
+
 
 @interface KRGpsTracker : NSObject<MKMapViewDelegate, CLLocationManagerDelegate>
 {
@@ -26,6 +29,7 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
     NSString *stopTrackingTitle;
     /*
      * @ 行進數據
+     *   - The running information.
      */
     //總共行進幾公尺
     CGFloat ranMeters;
@@ -41,6 +45,8 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
     BOOL showCompletionAlert;
     //指北針的按鈕
     UIButton *headingButton;
+    //運行時間
+    CGFloat runningSeconds;
 }
 
 @property (nonatomic, strong) MKMapView *mapView;
@@ -60,6 +66,10 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
 @property (nonatomic, assign) CGFloat speedMilesPerHour;
 @property (nonatomic, assign) BOOL showCompletionAlert;
 @property (nonatomic, strong) UIButton *headingButton;
+@property (nonatomic, assign) CGFloat runningSeconds;
+@property (nonatomic, copy) void (^changeHandler)(CGFloat meters, CGFloat seconds, CLLocation *location);
+@property (nonatomic, copy) void (^realTimeHandler)(CGFloat meters, CGFloat seconds);
+@property (nonatomic, copy) void (^headingHandler)(void);
 
 
 +(KRGpsTracker *)sharedManager;
@@ -67,7 +77,7 @@ typedef void (^TrackingCompleted)(CGFloat ranMeters, CGFloat ranKilometers, CGFl
 -(void)start;
 -(void)initializeAndStart;
 -(void)stop;
--(void)stopTrackingWithCompletionHandler:(TrackingCompleted)_completionHandler;
+-(void)stopTrackingWithCompletionHandler:(KRGpsTrackerCompletionHandler)_completionHandler;
 -(void)resetMap;
 -(void)selectMapMode:(MKMapType)selectedMapType;
 -(BOOL)isMultitaskingSupported;

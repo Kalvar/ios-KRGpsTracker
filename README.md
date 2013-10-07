@@ -9,7 +9,7 @@ KRGpsTracker supports ARC.
 
 ## How To Get Started
 
-KRGpsTracker is a route tracker which records the route of running to show on MKMapView, and it can calculate the running info.
+KRGpsTracker is a route tracker which records the route of running to show on MKMapView, it can calculate the running info and show it on real-time.
 
 ``` objective-c
 #import "KRGpsTracker.h"
@@ -23,6 +23,24 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
     self.krGpsTracker.mapView      = self.outMapView;
     self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
+
+    //This infoHandler Block will happen in location changed.
+    [self.krGpsTracker setChangeHandler:^(CGFloat meters, CGFloat seconds, CLLocation *location)
+    {
+         NSLog(@"meter : %f, seconds : %f, location : %f, %f", meters, seconds, location.coordinate.latitude, location.coordinate.longitude);
+    }];
+    
+    //This realTimeHandler Block will happen in every second. ( 1 second to fire once. )
+    [self.krGpsTracker setRealTimeHandler:^(CGFloat meters, CGFloat seconds)
+    {
+        NSLog(@"meter : %f, seconds : %f", meters, seconds);
+    }];
+    
+    //This headingHandler Block will happen in your touching the heading-button on the left-top of map.
+    [self.krGpsTracker setHeadingHandler:^
+    {
+        NSLog(@"You Click the Heading-Button on the Map Left-Top.");
+    }];
     //self.krGpsTracker.resetItem;
 }
 
@@ -68,7 +86,7 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
 
 ## Version
 
-V1.0.
+V1.1.
 
 ## License
 

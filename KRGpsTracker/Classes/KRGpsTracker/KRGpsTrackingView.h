@@ -1,6 +1,6 @@
 //
 //  KRGpsTrackingView.h
-//  KRGpsTracker V1.0
+//  KRGpsTracker V1.1
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.

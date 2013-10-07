@@ -340,12 +340,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: KUO-MING LIN (LJ8A4ND325)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: KUO-MING LIN (LJ8A4ND325)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8051EFBE-A79E-44D4-894B-6AD271EF39E6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8051EFBE-A79E-44D4-894B-6AD271EF39E6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -354,12 +356,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: KUO-MING LIN (LJ8A4ND325)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: KUO-MING LIN (LJ8A4ND325)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8051EFBE-A79E-44D4-894B-6AD271EF39E6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8051EFBE-A79E-44D4-894B-6AD271EF39E6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

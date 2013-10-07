@@ -1,6 +1,6 @@
 //
 //  KRGpsTrackingView.m
-//  KRGpsTracker V1.0
+//  KRGpsTracker V1.1
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -116,7 +116,8 @@
                 CGContextTranslateCTM(context,
                                       frame.origin.x + frame.size.width / 2,
                                       frame.origin.y + frame.size.height / 2);
-                //求出角度
+                
+                //求出角度 ( 也能記錄起來備用 )
                 float _angle = atanf( ( point.y - lastPoint.y ) / ( point.x - lastPoint.x ) );
                 if( point.x < lastPoint.x )
                 {
@@ -140,7 +141,8 @@
 }
 
 -(void)addPoint:(CLLocation *)_point
-{    
+{
+    //檢查是否與上一個記錄點不相等
     CLLocation *lastPoint = [visitedPoints lastObject];
     if( _point.coordinate.latitude != lastPoint.coordinate.latitude || _point.coordinate.longitude != lastPoint.coordinate.longitude )
     {
@@ -148,7 +150,6 @@
         //重繪 View
         [self setNeedsDisplay];
     }
-    
 }
 
 -(void)reset
