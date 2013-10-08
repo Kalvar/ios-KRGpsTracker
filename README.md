@@ -24,23 +24,40 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
     self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
 
+    //If you wanna use the IBOutlet in block method, that you need to use __block to declare a non-retain object to use.
+    __block UILabel *_speedTextLabel         = self.outSpeedLabel;
+    __block KRGpsTracker *_blockKrGpsTracker = self.krGpsTracker;
+    
     //This infoHandler Block will happen in location changed.
     [self.krGpsTracker setChangeHandler:^(CGFloat meters, CGFloat seconds, CLLocation *location)
     {
-         NSLog(@"meter : %f, seconds : %f, location : %f, %f", meters, seconds, location.coordinate.latitude, location.coordinate.longitude);
+        NSLog(@"meter : %f, seconds : %f, location : %f, %f", meters, seconds, location.coordinate.latitude, location.coordinate.longitude);
+        //You can use here to show the speed info when gps distance has changed.
+        //Here is the advice of default.
+        //Over 3 seconds then to start in show.
+        if( seconds > 3.0f )
+        {
+            [_speedTextLabel setText:[NSString stringWithFormat:@"%.2f mi/h", _blockKrGpsTracker.speedMilesPerHour]];
+        }
     }];
     
     //This realTimeHandler Block will happen in every second. ( 1 second to fire once. )
     [self.krGpsTracker setRealTimeHandler:^(CGFloat meters, CGFloat seconds)
     {
         NSLog(@"meter : %f, seconds : %f", meters, seconds);
+        //You can use here to show the speed info by each second changing.
+        if( seconds > 5.0f )
+        {
+            //[_speedTextLabel setText:[NSString stringWithFormat:@"%.2f mi/h", _blockKrGpsTracker.speedMilesPerHour]];
+        }
     }];
     
     //This headingHandler Block will happen in your touching the heading-button on the left-top of map.
     [self.krGpsTracker setHeadingHandler:^
     {
-        NSLog(@"You Click the Heading-Button on the Map Left-Top.");
+        //NSLog(@"You Click the Heading-Button on the Map Left-Top.");
     }];
+
     //self.krGpsTracker.resetItem;
 }
 

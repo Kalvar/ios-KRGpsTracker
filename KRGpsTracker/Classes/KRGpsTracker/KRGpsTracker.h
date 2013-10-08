@@ -1,6 +1,6 @@
 //
 //  KRGpsTracker.h
-//  KRGpsTracker V1.1
+//  KRGpsTracker V1.2
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -12,7 +12,6 @@
 typedef void (^KRGpsTrackerCompletionHandler)(CGFloat ranMeters, CGFloat ranKilometers, CGFloat ranMiles, CGFloat speedKilometersPerHour, CGFloat speedMilesPerHour);
 typedef void (^KRGpsTrackerRealTimeHandler)(CGFloat meters, CGFloat seconds);
 typedef void (^KRGpsTrackerInfoHandler)(CGFloat meters, CGFloat seconds, CLLocation *location);
-
 
 @interface KRGpsTracker : NSObject<MKMapViewDelegate, CLLocationManagerDelegate>
 {
@@ -70,7 +69,6 @@ typedef void (^KRGpsTrackerInfoHandler)(CGFloat meters, CGFloat seconds, CLLocat
 @property (nonatomic, copy) void (^changeHandler)(CGFloat meters, CGFloat seconds, CLLocation *location);
 @property (nonatomic, copy) void (^realTimeHandler)(CGFloat meters, CGFloat seconds);
 @property (nonatomic, copy) void (^headingHandler)(void);
-
 
 +(KRGpsTracker *)sharedManager;
 -(void)initialize;

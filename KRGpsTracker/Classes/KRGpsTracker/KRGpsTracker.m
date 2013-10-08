@@ -1,6 +1,6 @@
 //
 //  KRGpsTracker.m
-//  KRGpsTracker V1.1
+//  KRGpsTracker V1.2
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -398,9 +398,30 @@
 }
 
 #pragma --mark Getter
+-(CGFloat)ranKilometers
+{
+    return _ranMeters / 1000;
+}
+
+-(CGFloat)ranMiles
+{
+    return _ranMeters * 0.00062f;
+}
+
+-(CGFloat)speedKilometersPerHour
+{
+    return _ranMeters * 3.6f / self.runningSeconds;
+}
+
+-(CGFloat)speedMilesPerHour
+{
+    return _ranMeters * 2.2369f / self.runningSeconds;
+}
+
 -(CGFloat)runningSeconds
 {
     return -[startDate timeIntervalSinceNow];
 }
+
 
 @end
