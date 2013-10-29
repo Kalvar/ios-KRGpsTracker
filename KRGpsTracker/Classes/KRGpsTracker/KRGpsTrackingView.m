@@ -1,6 +1,6 @@
 //
 //  KRGpsTrackingView.m
-//  KRGpsTracker V1.2
+//  KRGpsTracker V1.3
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -140,6 +140,28 @@
     }
 }
 
+/*
+ * @ 2013.10.03 筆記
+ *   - 要能完整重現整個跑過的路線，需要將每一個點的經緯度資訊( CLLocation ) 完整記錄至 SQLite ( 或 Server ) 上，
+ *     因為這裡每一個 Point 都是 CLLocation，而參數值的型態如下所示 : 
+ *
+         CLLocation *_loc = [[CLLocation alloc] initWithCoordinate:_point.coordinate
+                                                          altitude:_point.altitude
+                                                horizontalAccuracy:_point.horizontalAccuracy
+                                                  verticalAccuracy:_point.verticalAccuracy
+                                                            course:_point.course
+                                                             speed:_point.speed
+                                                         timestamp:_point.timestamp];
+ *
+ *     _point.coordinate         = CLLocationCoordinate2D ; double ; latitude & longitude
+ *     _point.altitude           = CLLocationDistance     ; double
+ *     _point.horizontalAccuracy = CLLocationAccuracy     ; double
+ *     _point.verticalAccuracy   = CLLocationAccuracy     ; double
+ *     _point.course             = CLLocationDirection    ; double
+ *     _point.speed              = CLLocationSpeed        ; double
+ *     _point.timestamp          = NSDate
+ *
+ */
 -(void)addPoint:(CLLocation *)_point
 {
     //檢查是否與上一個記錄點不相等

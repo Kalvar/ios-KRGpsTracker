@@ -16,16 +16,18 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
 
 @property (nonatomic, strong) KRGpsTracker *krGpsTracker;
 
+#pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    krGpsTracker = [[KRGpsTracker alloc] init];
+    _krGpsTracker = [[KRGpsTracker alloc] init];
     self.krGpsTracker.mapView      = self.outMapView;
     self.krGpsTracker.trackingItem = self.outTrackingItem;
     [self.krGpsTracker initialize];
-
+    
     //If you wanna use the IBOutlet in block method, that you need to use __block to declare a non-retain object to use.
     __block UILabel *_speedTextLabel         = self.outSpeedLabel;
+    __block UILabel *_singalTextLabel        = self.outGpsSingalLabel;
     __block KRGpsTracker *_blockKrGpsTracker = self.krGpsTracker;
     
     //This infoHandler Block will happen in location changed.
@@ -57,11 +59,25 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
     {
         //NSLog(@"You Click the Heading-Button on the Map Left-Top.");
     }];
+    
+    //This gpsSingalHandler Block will happen with in the location keep in changing.
+    [self.krGpsTracker setGpsSingalHandler:^(BOOL hasSingal, KRGpsSingalStrength singalStrength, CLLocation *location)
+    {
+        NSString *_singalText = [_blockKrGpsTracker catchLimitedGpsSingalStrengthStringWithLocation:location];
+        [_singalTextLabel setText:_singalText];
+        //... Others you wanna do.
+        //...
+    }];
 
-    //self.krGpsTracker.resetItem;
 }
 
-#pragma My Methods
+#pragma --mark Extra Methods
+-(void)resetGpsSingalStrength
+{
+    [self.outGpsSingalLabel setText:[self.krGpsTracker catchCurrentGpsSingalStrengthString]];
+}
+
+#pragma --mark IBActions
 -(IBAction)toggleTracking:(id)sender
 {
     if( self.krGpsTracker.isTracking )
@@ -95,15 +111,35 @@ KRGpsTracker is a route tracker which records the route of running to show on MK
 
 -(IBAction)selectMapMode:(id)sender
 {
-    //取得分割按鈕的個別按鈕索引
+    //取得分割按鈕的個別按鈕索引 : 目前是哪一個按鈕被按下
     int index = [sender selectedSegmentIndex];
     [self.krGpsTracker selectMapMode:index];
+}
+
+-(IBAction)hasGpsSingal:(id)sender
+{
+    NSString *_singalSituation = @"";
+    BOOL _hasGpsSingal = [self.krGpsTracker hasGpsSingal];
+    if( _hasGpsSingal )
+    {
+        _singalSituation = @"Singal Alive.";
+    }
+    else
+    {
+        _singalSituation = @"Singal Disappear.";
+    }
+    UIAlertView *_alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:_singalSituation
+                                                        delegate:nil
+                                               cancelButtonTitle:@"Got It"
+                                               otherButtonTitles:nil];
+    [_alertView show];
 }
 ```
 
 ## Version
 
-V1.1.
+V1.3.
 
 ## License
 

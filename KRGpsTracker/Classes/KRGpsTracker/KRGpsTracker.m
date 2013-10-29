@@ -1,6 +1,6 @@
 //
 //  KRGpsTracker.m
-//  KRGpsTracker V1.2
+//  KRGpsTracker V1.3
 //
 //  Created by Kalvar on 13/7/7.
 //  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
@@ -139,9 +139,10 @@
 @synthesize speedMilesPerHour;
 @synthesize showCompletionAlert;
 @synthesize headingButton;
-@synthesize runningSeconds = _runningSeconds;
-@synthesize changeHandler  = _changeHandler;
-@synthesize headingHandler = _headingHandler;
+@synthesize runningSeconds   = _runningSeconds;
+@synthesize changeHandler    = _changeHandler;
+@synthesize headingHandler   = _headingHandler;
+@synthesize gpsSingalHandler = _gpsSingalHandler;
 //
 @synthesize _trackingMapView;
 @synthesize _timer;
@@ -323,6 +324,117 @@
     return _isSupported;
 }
 
+/*
+ * @ 取得當前 GPS 訊號強度
+ *   - Judge the GPS singal strength.
+ */
+-(KRGpsSingalStrength)singalStrength
+{
+    return [self singalStrengthWithLocation:self.locationManager.location];
+}
+
+/*
+ * @ 取得指定 Location 的 GPS 訊號強度
+ *   - Judge the Gps singal strength of limit location.
+ */
+-(KRGpsSingalStrength)singalStrengthWithLocation:(CLLocation *)_location
+{
+    //水平精度
+    //CLLocationAccuracy horizontal = newLocation.horizontalAccuracy;
+    //垂直精度
+    //CLLocationAccuracy vertical = newLocation.verticalAccuracy;
+    
+    CLLocationAccuracy _horizontalAccuracy = _location.horizontalAccuracy;
+    KRGpsSingalStrength _singalStrength    = KRGpsSingalStrengthNone;
+    if( (_horizontalAccuracy > 0.0f) && (_horizontalAccuracy <= 10.0f) )
+    {
+        _singalStrength = KRGpsSingalStrengthPerfect;
+    }
+    else if( (_horizontalAccuracy > 10.0f) && (_horizontalAccuracy <= 30.0f) )
+    {
+        _singalStrength = KRGpsSingalStrengthStrong;
+    }
+    else if( (_horizontalAccuracy > 30.0f) && (_horizontalAccuracy <= 60.0f) )
+    {
+        _singalStrength = KRGpsSingalStrengthHigh;
+    }
+    else if( (_horizontalAccuracy > 60.0f ) && (_horizontalAccuracy <= 100.0f) )
+    {
+        _singalStrength = KRGpsSingalStrengthMiddle;
+    }
+    else if( (_horizontalAccuracy > 100.0f) && (_horizontalAccuracy <= 200.0f))
+    {
+        _singalStrength = KRGpsSingalStrengthLow;
+    }
+    return _singalStrength;
+}
+
+/*
+ * @ 當前位置是否有 GPS 訊號
+ *   - Is current location GPS singal alive ?
+ */
+-(BOOL)hasGpsSingal
+{
+    return !( [self singalStrength] == KRGpsSingalStrengthNone );
+}
+
+/*
+ * @ 指定位置是否有 GPS 訊號
+ *   - Is limited location GPS singal alive ?
+ */
+-(BOOL)hasGpsSingalWithLocation:(CLLocation *)_location
+{
+    return !( [self singalStrengthWithLocation:_location] == KRGpsSingalStrengthNone );
+}
+
+/*
+ * @ 取得當前位置 GPS 訊號的字串
+ *   - Catchs the GPS singal strength string.
+ */
+-(NSString *)catchCurrentGpsSingalStrengthString
+{
+    return [self catchLimitedGpsSingalStrengthStringWithLocation:self.locationManager.location];
+}
+
+/*
+ * @ 取得指定位置 GPS 訊號的字串
+ *   - Catchs the GPS singal strength string.
+ */
+-(NSString *)catchLimitedGpsSingalStrengthStringWithLocation:(CLLocation *)_location
+{
+    NSString *_gpsSingalString = @"No Singal";
+    switch ( [self singalStrengthWithLocation:_location] )
+    {
+        case KRGpsSingalStrengthNone:
+            //No Singal.
+            //...
+            break;
+        case KRGpsSingalStrengthLow:
+            //Low Singal.
+            _gpsSingalString = @"Low Singal";
+            break;
+        case KRGpsSingalStrengthMiddle:
+            //Middle Singal.
+            _gpsSingalString = @"Middle Singal";
+            break;
+        case KRGpsSingalStrengthHigh:
+            //High Singal.
+            _gpsSingalString = @"High Singal";
+            break;
+        case KRGpsSingalStrengthStrong:
+            //Strong Singal.
+            _gpsSingalString = @"Strong Singal";
+            break;
+        case KRGpsSingalStrengthPerfect:
+            //Perfect Singal. ( Almost Impossible )
+            _gpsSingalString = @"Perfect Singal";
+            break;
+        default:
+            break;
+    }
+    return _gpsSingalString;
+}
+
 #pragma MapViewDelegate
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
@@ -345,6 +457,10 @@
     if( _changeHandler )
     {
         self.changeHandler(_ranMeters, self.runningSeconds, newLocation);
+    }
+    if( _gpsSingalHandler )
+    {
+        self.gpsSingalHandler( [self hasGpsSingal], [self singalStrength], newLocation );
     }
     /*
      * @ 指定顯示區域
