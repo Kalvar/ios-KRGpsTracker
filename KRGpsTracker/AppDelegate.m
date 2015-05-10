@@ -34,6 +34,7 @@
  *   - 在註冊完「Required background modes」後，一定要來寫上這裡的 Code。
  *     It registered " Required background modes " for " App registers for location updates ", then you have to add the code as below.
  */
+///*
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     UIApplication *app = [UIApplication sharedApplication];
@@ -42,6 +43,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (bgTask != UIBackgroundTaskInvalid)
             {
+                [app endBackgroundTask:bgTask];
                 bgTask = UIBackgroundTaskInvalid;
             }
         });
@@ -50,12 +52,54 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (bgTask != UIBackgroundTaskInvalid)
             {
+                [app endBackgroundTask:bgTask];
                 bgTask = UIBackgroundTaskInvalid;
             }
         });
     });
 }
+//*/
 
+
+//- (void)backgroundHandler
+//{
+//    NSLog(@"### -->backgroundinghandler");
+//    UIApplication *app = [UIApplication sharedApplication];
+//    __block UIBackgroundTaskIdentifier bgTask;
+//    bgTask = [app beginBackgroundTaskWithExpirationHandler:^
+//    {
+//        [app endBackgroundTask:bgTask];
+//        bgTask = UIBackgroundTaskInvalid;
+//    }];
+//    // Start the long-running task
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+//    {
+//        /*
+//        while (1)
+//        {
+//            NSLog(@"counter:%ld", counter++);
+//            sleep(1);
+//            
+//        }
+//        */
+//    });
+//    
+//}
+//
+//- (void)applicationDidEnterBackground:(UIApplication *)application
+//{
+//    
+//    BOOL backgroundAccepted = [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^
+//    {
+//        [self backgroundHandler];
+//    }];
+//    
+//    if (backgroundAccepted)
+//    {
+//        //NSLog(@"backgrounding accepted");
+//    }
+//    [self backgroundHandler];
+//}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {

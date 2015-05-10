@@ -435,15 +435,48 @@
     return _gpsSingalString;
 }
 
+/*
+ * @ 取得指定區域的 GPS 訊號是否良好
+ *   - Is the GPS single strength nice of limit location ?
+ */
+-(BOOL)isGpsNiceSingalWithLocation:(CLLocation *)_location
+{
+    return (_location.horizontalAccuracy <= 100.0f);
+}
+
 #pragma MapViewDelegate
+
+//#error 要再整合 MapView 的功能進來
+
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     //不需要任何的大頭針註解
     return nil;
 }
 
+/*
+ * @ 這裡會在按下地圖進行移動時觸發
+ *   - 每次點擊只會觸發 1 次，直到「放開手指，停止地圖移動時」，才會觸發 regionDidChangeAnimated 委派方法
+ */
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
+    
+}
+
+/*
+ * @ 會在地圖移動結束時觸發
+ *   - 在 regionWillChangeAnimated 完成後才會觸發
+ */
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    
+}
+
 #pragma CLLocationManagerDelegate
-//當使用者取得新的地理位置資訊後觸發
+/*
+ * @ 已持續更新 GPS 位置
+ *   - 當使用者取得新的地理位置資訊後觸發
+ */
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     //加入一個新定位點
@@ -477,13 +510,28 @@
 }
 
 /*
+ * @ 已更新 GPS 位置
+ *   - 來自於啟動 [_locationManager startUpdatingLocation]; 會持續更新這裡，每秒 1 ~ 4 次不等，依當下的 GPS 訊號而定，
+ *     可參考 Golf、 Sports、GpsTrakcer、MapKit
+ */
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    
+#warning 待驗證本方法
+    
+}
+
+/*
  * @ 取得 GPS 羅盤方向 (以角度為單位，以順時針計算)
  *   - 正北方 0   度
  *   - 正東方 90  度
  *   - 正南方 180 度
  *   - 正西方 270 度
+ *
+ * @ 已更新 GPS 方向
+ *   - 來自於啟動 [_locationManager startUpdatingHeading]; 會持續更新這裡的方向，
+ *     可參考 GpsTrakcer
  */
-//當 CLLocationManager 取得更新後的方向資訊時觸發
 -(void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
     //將真北的角度轉成弧度
@@ -513,6 +561,45 @@
     //NSLog(@"LocationManager failed, The Error Code : %i \n", [error code]);
 }
 
+#pragma --mark Monitorings
+/*
+ * @ 已開始監控指定區域
+ */
+-(void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+    
+}
+
+/*
+ * @ 失敗監控指定區域
+ */
+-(void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
+{
+    
+}
+
+/*
+ * @ 已暫停更新 GPS 定位
+ *   - 當 GPS 定位被系統自動暫停時觸發
+ */
+-(void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager
+{
+    
+#warning 待驗證本方法
+    
+}
+
+/*
+ * @ 已重新啟動 GPS 定位
+ *   - 當 GPS 定位被系統自動重啟時觸發
+ */
+-(void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
+{
+    
+#warning 待驗證本方法
+    
+}
+
 #pragma --mark Getter
 -(CGFloat)ranKilometers
 {
@@ -537,6 +624,11 @@
 -(CGFloat)runningSeconds
 {
     return -[startDate timeIntervalSinceNow];
+}
+
+-(BOOL)isGpsNice
+{
+    return (self.locationManager.location.horizontalAccuracy <= 100.0f);
 }
 
 

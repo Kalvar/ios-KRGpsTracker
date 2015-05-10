@@ -76,6 +76,10 @@
     
     int pointsCount = [visitedPoints count];
     
+#error Todo : 直線夌角，圓滑直線問題 ( 圖資的資料來源座標 CGPoints .... )，或寫一個路徑演算法來判斷大眾的區間走法解決。
+#error Todo : GPS Tracker 的省電問題 <---- O3O ( 利用十秒存活期來, 9 秒存活計劃，或採取間隔法，每 5 秒啟動更新，每次更新 10 秒，因考慮還有背景存活問題，每次間隔必須小於 10 秒採取 9 秒存活計劃，才能保證 GPS 活躍，請參考 KRBle 的 Scan 模式，加入 TImeout 和 Interval 間隔等 )
+#error Todo : 採用區域監控的模式，來把每一個監控點連結起來，現在這支 Code 也是 50 公尺才記錄一個點並連結，因此，用 Monitoring 是合理可省電和達到效果的，但必須判斷要監控的範圍如果小於 25 公尺 ( 或 5 公尺 ? 5 公尺是較精確的，但須驗證 )，就不採用監控模式來畫點和線，而是採用原模式，以不斷更新 GPS 的方式來畫點和線
+    
     for(int i=0; i<pointsCount; i++)
     {
         float f = (float) i;
@@ -90,7 +94,7 @@
         CLLocation *nextLocation = [visitedPoints objectAtIndex:i];
         CGPoint lastPoint = point;
         
-        //取得在 MapView 上的座標點
+        //從下一個經緯度來換算取得在 MapView 上的座標點
         point = [self.superMapView convertCoordinate:nextLocation.coordinate toPointToView:self];
         //如果這不是第一個點
         if( i != 0 )

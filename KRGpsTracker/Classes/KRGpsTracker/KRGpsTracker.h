@@ -88,6 +88,7 @@ typedef void (^KRGpsTrackerGpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength
 @property (nonatomic, copy) void (^realTimeHandler)(CGFloat meters, CGFloat seconds);
 @property (nonatomic, copy) void (^headingHandler)(void);
 @property (nonatomic, copy) void (^gpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength singalStrength, CLLocation *location);
+@property (nonatomic, assign) BOOL isGpsNice;
 
 +(KRGpsTracker *)sharedManager;
 -(void)initialize;
@@ -104,5 +105,6 @@ typedef void (^KRGpsTrackerGpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength
 -(BOOL)hasGpsSingalWithLocation:(CLLocation *)_location;
 -(NSString *)catchCurrentGpsSingalStrengthString;
 -(NSString *)catchLimitedGpsSingalStrengthStringWithLocation:(CLLocation *)_location;
+-(BOOL)isGpsNiceSingalWithLocation:(CLLocation *)_location;
 
 @end
