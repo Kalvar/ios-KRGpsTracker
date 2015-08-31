@@ -38,5 +38,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please accept GPS service</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please temporarily accept GPS service</string>
 </dict>
 </plist>

@@ -1,9 +1,9 @@
 //
 //  KRGpsTracker.h
-//  KRGpsTracker V1.3
+//  KRGpsTracker V1.4
 //
 //  Created by Kalvar on 13/7/7.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -32,39 +32,6 @@ typedef void (^KRGpsTrackerGpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength
 
 
 @interface KRGpsTracker : NSObject<MKMapViewDelegate, CLLocationManagerDelegate>
-{
-    MKMapView *mapView;
-    UIBarButtonItem *trackingItem;
-    UIBarButtonItem *resetItem;
-    BOOL isTracking;
-    CLLocationManager *locationManager;
-    NSDate *startDate;
-    //GPS 羅盤
-    CLHeading *heading;
-    //開始與停止時的名稱
-    NSString *startTrackingTitle;
-    NSString *stopTrackingTitle;
-    /*
-     * @ 行進數據
-     *   - The running information.
-     */
-    //總共行進幾公尺
-    CGFloat ranMeters;
-    //總共行進幾公里
-    CGFloat ranKilometers;
-    //總共行進幾英哩
-    CGFloat ranMiles;
-    //行進時速( 公里 )
-    CGFloat speedKilometersPerHour;
-    //行進時速( 英哩 )
-    CGFloat speedMilesPerHour;
-    //在結束時秀出行進數據的 Alert
-    BOOL showCompletionAlert;
-    //指北針的按鈕
-    UIButton *headingButton;
-    //運行時間
-    CGFloat runningSeconds;
-}
 
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) UIBarButtonItem *trackingItem;
@@ -72,28 +39,43 @@ typedef void (^KRGpsTrackerGpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength
 @property (nonatomic, assign) BOOL isTracking;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSDate *startDate;
+//GPS 羅盤
 @property (nonatomic, strong) CLHeading *heading;
+//開始與停止時的名稱
 @property (nonatomic, strong) NSString *startTrackingTitle;
 @property (nonatomic, strong) NSString *stopTrackingTitle;
+//總共行進幾公尺
 @property (nonatomic, assign) CGFloat ranMeters;
+//總共行進幾公里
 @property (nonatomic, assign) CGFloat ranKilometers;
+//總共行進幾英哩
 @property (nonatomic, assign) CGFloat ranMiles;
 @property (nonatomic, assign) CGFloat ranSpeed;
+//行進時速( 公里 )
 @property (nonatomic, assign) CGFloat speedKilometersPerHour;
+//行進時速( 英哩 )
 @property (nonatomic, assign) CGFloat speedMilesPerHour;
+//在結束時秀出行進數據的 Alert
 @property (nonatomic, assign) BOOL showCompletionAlert;
+//指北針的按鈕
 @property (nonatomic, strong) UIButton *headingButton;
+//運行時間
 @property (nonatomic, assign) CGFloat runningSeconds;
+
 @property (nonatomic, copy) void (^changeHandler)(CGFloat meters, CGFloat seconds, CLLocation *location);
 @property (nonatomic, copy) void (^realTimeHandler)(CGFloat meters, CGFloat seconds);
 @property (nonatomic, copy) void (^headingHandler)(void);
 @property (nonatomic, copy) void (^gpsSingalHandler)(BOOL hasSingal, KRGpsSingalStrength singalStrength, CLLocation *location);
-@property (nonatomic, assign) BOOL isGpsNice;
 
-+(KRGpsTracker *)sharedManager;
+@property (nonatomic, assign) BOOL isGpsNice;
+@property (nonatomic, strong) UIImage *headingImage;
+@property (nonatomic, assign) float arrowThresold;
+@property (nonatomic, strong) UIImage *arrowImage;
+
++(instancetype)sharedTracker;
 -(void)initialize;
 -(void)start;
--(void)initializeAndStart;
+-(void)initialStart;
 -(void)stop;
 -(void)stopTrackingWithCompletionHandler:(KRGpsTrackerCompletionHandler)_completionHandler;
 -(void)resetMap;

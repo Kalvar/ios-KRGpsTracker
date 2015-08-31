@@ -1,20 +1,13 @@
 //
 //  KRGpsTrackingView.m
-//  KRGpsTracker V1.3
+//  KRGpsTracker V1.4
 //
 //  Created by Kalvar on 13/7/7.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import "KRGpsTrackingView.h"
 #import <MapKit/MKMapView.h>
-
-@interface KRGpsTrackingView (fixPrivate)
-
--(void)_initWithVars;
--(UIImage *)_imageNameNoCache:(NSString *)_imageName;
-
-@end
 
 @implementation KRGpsTrackingView (fixPrivate)
 
@@ -23,7 +16,7 @@
     //清除背景色
     self.backgroundColor = [UIColor clearColor];
     //初始化 visitedPoints
-    visitedPoints        = [[NSMutableArray alloc] init];
+    self.visitedPoints   = [[NSMutableArray alloc] init];
     self.superMapView    = nil;
     //預設箭頭在距離多少公尺時出現
     self.arrowThresold   = 50.0f;
@@ -38,10 +31,6 @@
 
 @implementation KRGpsTrackingView
 
-@synthesize visitedPoints;
-@synthesize superMapView;
-@synthesize arrowThresold = _arrowThresold;
-
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -55,7 +44,7 @@
 //繪製移動路線和箭頭
 -(void)drawRect:(CGRect)rect
 {
-    if( [visitedPoints count] <= 1 || self.hidden )
+    if( [_visitedPoints count] <= 1 || self.hidden )
     {
         return;
     }
@@ -74,11 +63,7 @@
     //距離
     float distance = 0.0;
     
-    int pointsCount = [visitedPoints count];
-    
-#error Todo : 直線夌角，圓滑直線問題 ( 圖資的資料來源座標 CGPoints .... )，或寫一個路徑演算法來判斷大眾的區間走法解決。
-#error Todo : GPS Tracker 的省電問題 <---- O3O ( 利用十秒存活期來, 9 秒存活計劃，或採取間隔法，每 5 秒啟動更新，每次更新 10 秒，因考慮還有背景存活問題，每次間隔必須小於 10 秒採取 9 秒存活計劃，才能保證 GPS 活躍，請參考 KRBle 的 Scan 模式，加入 TImeout 和 Interval 間隔等 )
-#error Todo : 採用區域監控的模式，來把每一個監控點連結起來，現在這支 Code 也是 50 公尺才記錄一個點並連結，因此，用 Monitoring 是合理可省電和達到效果的，但必須判斷要監控的範圍如果小於 25 公尺 ( 或 5 公尺 ? 5 公尺是較精確的，但須驗證 )，就不採用監控模式來畫點和線，而是採用原模式，以不斷更新 GPS 的方式來畫點和線
+    int pointsCount = [_visitedPoints count];
     
     for(int i=0; i<pointsCount; i++)
     {
@@ -91,7 +76,7 @@
                                    0.8);
         
         //取得下一個　Location 定位
-        CLLocation *nextLocation = [visitedPoints objectAtIndex:i];
+        CLLocation *nextLocation = [_visitedPoints objectAtIndex:i];
         CGPoint lastPoint = point;
         
         //從下一個經緯度來換算取得在 MapView 上的座標點
@@ -106,37 +91,39 @@
             //距離 = 乘冪(次方)計算( 這裡 2 次方 )後開平方根
             distance += sqrtf( pow(point.x - lastPoint.x, 2) + pow(point.y - lastPoint.y, 2) );
             //如果距離大於預設的長度
-            if( distance >= _arrowThresold )
+            if( _arrowThresold > 0.0f && distance >= _arrowThresold )
             {
-                //開始繪製路線與箭頭
-                UIImage *image = [self _imageNameNoCache:@"arrow_2.png"];
-                CGPoint middle = CGPointMake((point.x + lastPoint.x) / 2,
-                                             (point.y + lastPoint.y) / 2);
-                CGRect frame = CGRectMake( ( middle.x - image.size.width / 2 ),
-                                           ( middle.y - image.size.height / 2 ),
-                                           image.size.width,
-                                           image.size.height );
-                CGContextSaveGState(context);
-                CGContextTranslateCTM(context,
-                                      frame.origin.x + frame.size.width / 2,
-                                      frame.origin.y + frame.size.height / 2);
-                
-                //求出角度 ( 也能記錄起來備用 )
-                float _angle = atanf( ( point.y - lastPoint.y ) / ( point.x - lastPoint.x ) );
-                if( point.x < lastPoint.x )
+                //繪製箭頭
+                UIImage *image = _arrowImage;
+                if( image != nil )
                 {
-                    _angle += 3.14159;
+                    CGPoint middle = CGPointMake((point.x + lastPoint.x) / 2,
+                                                 (point.y + lastPoint.y) / 2);
+                    CGRect frame = CGRectMake( ( middle.x - image.size.width / 2 ),
+                                              ( middle.y - image.size.height / 2 ),
+                                              image.size.width,
+                                              image.size.height );
+                    CGContextSaveGState(context);
+                    CGContextTranslateCTM(context,
+                                          frame.origin.x + frame.size.width / 2,
+                                          frame.origin.y + frame.size.height / 2);
+                    //求出角度 ( 也能記錄起來備用 )
+                    float _angle = atanf( ( point.y - lastPoint.y ) / ( point.x - lastPoint.x ) );
+                    if( point.x < lastPoint.x )
+                    {
+                        _angle += 3.14159;
+                    }
+                    //畫弧線
+                    CGContextRotateCTM(context, _angle);
+                    CGContextDrawImage(context,
+                                       CGRectMake(-frame.size.width / 2,
+                                                  -frame.size.height / 2,
+                                                  frame.size.width,
+                                                  frame.size.height),
+                                       image.CGImage);
+                    CGContextRestoreGState(context);
+                    distance = 0.0f;
                 }
-                //畫弧線
-                CGContextRotateCTM(context, _angle);
-                CGContextDrawImage(context,
-                                   CGRectMake(-frame.size.width / 2,
-                                              -frame.size.height / 2,
-                                              frame.size.width,
-                                              frame.size.height),
-                                   image.CGImage);
-                CGContextRestoreGState(context);
-                distance = 0.0f;
             }
         }
         //畫出路徑
@@ -169,18 +156,23 @@
 -(void)addPoint:(CLLocation *)_point
 {
     //檢查是否與上一個記錄點不相等
-    CLLocation *lastPoint = [visitedPoints lastObject];
+    CLLocation *lastPoint = [_visitedPoints lastObject];
     if( _point.coordinate.latitude != lastPoint.coordinate.latitude || _point.coordinate.longitude != lastPoint.coordinate.longitude )
     {
-        [visitedPoints addObject:_point];
+        [_visitedPoints addObject:_point];
         //重繪 View
         [self setNeedsDisplay];
     }
 }
 
+-(CLLocation *)getLastLocation
+{
+    return [_visitedPoints count] > 0 ? [_visitedPoints lastObject] : nil;
+}
+
 -(void)reset
 {
-    [visitedPoints removeAllObjects];
+    [_visitedPoints removeAllObjects];
     [self setNeedsDisplay];
 }
 
@@ -197,8 +189,5 @@
     self.hidden = NO;
     [self setNeedsDisplay];
 }
-
-
-
 
 @end

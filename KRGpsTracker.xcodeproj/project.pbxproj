@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E0EAB4C185C956F00C93577 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EAB4B185C956F00C93577 /* MKMapView+ZoomLevel.m */; };
 		8EA1866517C7658700E55FBF /* arrow_heading.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866317C7658600E55FBF /* arrow_heading.png */; };
 		8EA1866617C7658700E55FBF /* arrow_heading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866417C7658600E55FBF /* arrow_heading@2x.png */; };
-		8EF0BD6317894196003DDFD6 /* KRGpsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */; };
 		8EF48302178B8F1A0038DB64 /* arrow_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FE178B8F1A0038DB64 /* arrow_1.png */; };
 		8EF48303178B8F1A0038DB64 /* arrow_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */; };
 		8EF48304178B8F1A0038DB64 /* arrow_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF48300178B8F1A0038DB64 /* arrow_2.png */; };
 		8EF48305178B8F1A0038DB64 /* arrow_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF48301178B8F1A0038DB64 /* arrow_2@2x.png */; };
 		8EF559011789B5EB00B3F563 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF559001789B5EB00B3F563 /* CoreLocation.framework */; };
 		8EF559031789B5EF00B3F563 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF559021789B5EF00B3F563 /* MapKit.framework */; };
-		8EF7FA1217893D4B00DC99FF /* KRGpsTrackingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF7FA1117893D4B00DC99FF /* KRGpsTrackingView.m */; };
+		8EF6C3C71B9498D300945240 /* KRGpsTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6C3C21B9498D300945240 /* KRGpsTracker.m */; };
+		8EF6C3C81B9498D300945240 /* KRGpsTrackingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6C3C41B9498D300945240 /* KRGpsTrackingView.m */; };
+		8EF6C3C91B9498D300945240 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6C3C61B9498D300945240 /* MKMapView+ZoomLevel.m */; };
 		8EFB5836177718B6000DE086 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5835177718B6000DE086 /* UIKit.framework */; };
 		8EFB5838177718B6000DE086 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5837177718B6000DE086 /* Foundation.framework */; };
 		8EFB583A177718B6000DE086 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5839177718B6000DE086 /* CoreGraphics.framework */; };
@@ -32,20 +32,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8E0EAB4A185C956F00C93577 /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
-		8E0EAB4B185C956F00C93577 /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		8EA1866317C7658600E55FBF /* arrow_heading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_heading.png; sourceTree = "<group>"; };
 		8EA1866417C7658600E55FBF /* arrow_heading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_heading@2x.png"; sourceTree = "<group>"; };
-		8EF0BD6117894196003DDFD6 /* KRGpsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTracker.h; sourceTree = "<group>"; };
-		8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTracker.m; sourceTree = "<group>"; };
 		8EF482FE178B8F1A0038DB64 /* arrow_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_1.png; sourceTree = "<group>"; };
 		8EF482FF178B8F1A0038DB64 /* arrow_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_1@2x.png"; sourceTree = "<group>"; };
 		8EF48300178B8F1A0038DB64 /* arrow_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_2.png; sourceTree = "<group>"; };
 		8EF48301178B8F1A0038DB64 /* arrow_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_2@2x.png"; sourceTree = "<group>"; };
 		8EF559001789B5EB00B3F563 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8EF559021789B5EF00B3F563 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		8EF7FA1017893D4B00DC99FF /* KRGpsTrackingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTrackingView.h; sourceTree = "<group>"; };
-		8EF7FA1117893D4B00DC99FF /* KRGpsTrackingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTrackingView.m; sourceTree = "<group>"; };
+		8EF6C3C11B9498D300945240 /* KRGpsTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTracker.h; sourceTree = "<group>"; };
+		8EF6C3C21B9498D300945240 /* KRGpsTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTracker.m; sourceTree = "<group>"; };
+		8EF6C3C31B9498D300945240 /* KRGpsTrackingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRGpsTrackingView.h; sourceTree = "<group>"; };
+		8EF6C3C41B9498D300945240 /* KRGpsTrackingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRGpsTrackingView.m; sourceTree = "<group>"; };
+		8EF6C3C51B9498D300945240 /* MKMapView+ZoomLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+ZoomLevel.h"; sourceTree = "<group>"; };
+		8EF6C3C61B9498D300945240 /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		8EFB5832177718B6000DE086 /* KRGpsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRGpsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EFB5835177718B6000DE086 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8EFB5837177718B6000DE086 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -80,15 +80,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8E0EAB49185C956E00C93577 /* MKMapView+ZoomLevel */ = {
-			isa = PBXGroup;
-			children = (
-				8E0EAB4A185C956F00C93577 /* MKMapView+ZoomLevel.h */,
-				8E0EAB4B185C956F00C93577 /* MKMapView+ZoomLevel.m */,
-			);
-			path = "MKMapView+ZoomLevel";
-			sourceTree = "<group>";
-		};
 		8EF558FF1789B5D900B3F563 /* MapKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,10 +89,23 @@
 			name = MapKit;
 			sourceTree = "<group>";
 		};
+		8EF6C3C01B9498D300945240 /* KRGPS */ = {
+			isa = PBXGroup;
+			children = (
+				8EF6C3C11B9498D300945240 /* KRGpsTracker.h */,
+				8EF6C3C21B9498D300945240 /* KRGpsTracker.m */,
+				8EF6C3C31B9498D300945240 /* KRGpsTrackingView.h */,
+				8EF6C3C41B9498D300945240 /* KRGpsTrackingView.m */,
+				8EF6C3C51B9498D300945240 /* MKMapView+ZoomLevel.h */,
+				8EF6C3C61B9498D300945240 /* MKMapView+ZoomLevel.m */,
+			);
+			path = KRGPS;
+			sourceTree = "<group>";
+		};
 		8EFB5829177718B6000DE086 = {
 			isa = PBXGroup;
 			children = (
-				8EFB5858177718E3000DE086 /* Classes */,
+				8EF6C3C01B9498D300945240 /* KRGPS */,
 				8EFB585A177718E3000DE086 /* Images */,
 				8EFB583B177718B6000DE086 /* KRGpsTracker */,
 				8EFB583C177718B6000DE086 /* Supporting Files */,
@@ -156,27 +160,6 @@
 			path = KRGpsTracker;
 			sourceTree = "<group>";
 		};
-		8EFB5858177718E3000DE086 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				8E0EAB49185C956E00C93577 /* MKMapView+ZoomLevel */,
-				8EFB5859177718E3000DE086 /* KRGpsTracker */,
-			);
-			name = Classes;
-			path = KRGpsTracker/Classes;
-			sourceTree = "<group>";
-		};
-		8EFB5859177718E3000DE086 /* KRGpsTracker */ = {
-			isa = PBXGroup;
-			children = (
-				8EF7FA1017893D4B00DC99FF /* KRGpsTrackingView.h */,
-				8EF7FA1117893D4B00DC99FF /* KRGpsTrackingView.m */,
-				8EF0BD6117894196003DDFD6 /* KRGpsTracker.h */,
-				8EF0BD6217894196003DDFD6 /* KRGpsTracker.m */,
-			);
-			path = KRGpsTracker;
-			sourceTree = "<group>";
-		};
 		8EFB585A177718E3000DE086 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +202,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Kuo-Ming Lin";
+				TargetAttributes = {
+					8EFB5831177718B6000DE086 = {
+						DevelopmentTeam = 8ST7WGA6ZS;
+					};
+				};
 			};
 			buildConfigurationList = 8EFB582D177718B6000DE086 /* Build configuration list for PBXProject "KRGpsTracker" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -263,12 +251,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EF6C3C91B9498D300945240 /* MKMapView+ZoomLevel.m in Sources */,
+				8EF6C3C81B9498D300945240 /* KRGpsTrackingView.m in Sources */,
+				8EF6C3C71B9498D300945240 /* KRGpsTracker.m in Sources */,
 				8EFB5842177718B6000DE086 /* main.m in Sources */,
-				8E0EAB4C185C956F00C93577 /* MKMapView+ZoomLevel.m in Sources */,
 				8EFB5846177718B6000DE086 /* AppDelegate.m in Sources */,
 				8EFB584F177718B6000DE086 /* ViewController.m in Sources */,
-				8EF7FA1217893D4B00DC99FF /* KRGpsTrackingView.m in Sources */,
-				8EF0BD6317894196003DDFD6 /* KRGpsTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,9 +347,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45A4B2AB-4CFC-40ED-A339-02F478CE034A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "45A4B2AB-4CFC-40ED-A339-02F478CE034A";
+				PROVISIONING_PROFILE = "cd000794-bd3f-47d6-8e23-e44e187c97bc";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -375,9 +364,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KRGpsTracker/KRGpsTracker-Prefix.pch";
 				INFOPLIST_FILE = "KRGpsTracker/KRGpsTracker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45A4B2AB-4CFC-40ED-A339-02F478CE034A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "45A4B2AB-4CFC-40ED-A339-02F478CE034A";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

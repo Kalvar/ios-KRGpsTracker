@@ -1,9 +1,6 @@
 //
 //  MKMapView+ZoomLevel.h
-//  BiidealApp
-//
-//  Created by Kalvar on 2013/12/14.
-//  Copyright (c) 2013年 PromptApps. All rights reserved.
+//  KRGPSTracker
 //
 
 #import <MapKit/MapKit.h>

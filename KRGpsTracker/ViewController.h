@@ -1,9 +1,9 @@
 //
 //  ViewController.h
-//  KRGpsTracker V1.3
+//  KRGpsTracker V1.4
 //
 //  Created by Kalvar on 13/6/23.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

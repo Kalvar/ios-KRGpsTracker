@@ -1,9 +1,9 @@
 //
 //  ViewController.m
-//  KRGpsTracker V1.3
+//  KRGpsTracker V1.4
 //
 //  Created by Kalvar on 13/6/23.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -14,27 +14,25 @@
 
 @implementation ViewController
 
-@synthesize outMapView;
-@synthesize outTrackingItem;
-@synthesize outSpeedLabel;
-@synthesize krGpsTracker = _krGpsTracker;
-
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _krGpsTracker = [[KRGpsTracker alloc] init];
-    self.krGpsTracker.mapView      = self.outMapView;
-    self.krGpsTracker.trackingItem = self.outTrackingItem;
-    [self.krGpsTracker initialize];
+    
+    _krGpsTracker              = [[KRGpsTracker alloc] init];
+    _krGpsTracker.mapView      = _outMapView;
+    _krGpsTracker.trackingItem = _outTrackingItem;
+    _krGpsTracker.headingImage = [UIImage imageNamed:@"arrow_heading.png"];
+    _krGpsTracker.arrowImage   = [UIImage imageNamed:@"arrow_2.png"];
+    [_krGpsTracker initialize];
     
     //If you wanna use the IBOutlet in block method, that you need to use __block to declare a non-retain object to use.
-    __block UILabel *_speedTextLabel         = self.outSpeedLabel;
-    __block UILabel *_singalTextLabel        = self.outGpsSingalLabel;
-    __block KRGpsTracker *_blockKrGpsTracker = self.krGpsTracker;
+    __block UILabel *_speedTextLabel         = _outSpeedLabel;
+    __block UILabel *_singalTextLabel        = _outGpsSingalLabel;
+    __block KRGpsTracker *_blockKrGpsTracker = _krGpsTracker;
     
     //This infoHandler Block will happen in location changed.
-    [self.krGpsTracker setChangeHandler:^(CGFloat meters, CGFloat seconds, CLLocation *location)
+    [_krGpsTracker setChangeHandler:^(CGFloat meters, CGFloat seconds, CLLocation *location)
     {
         NSLog(@"meter : %f, seconds : %f, location : %f, %f", meters, seconds, location.coordinate.latitude, location.coordinate.longitude);
         //You can use here to show the speed info when gps distance has changed.
@@ -47,7 +45,7 @@
     }];
     
     //This realTimeHandler Block will happen in every second. ( 1 second to fire once. )
-    [self.krGpsTracker setRealTimeHandler:^(CGFloat meters, CGFloat seconds)
+    [_krGpsTracker setRealTimeHandler:^(CGFloat meters, CGFloat seconds)
     {
         NSLog(@"meter : %f, seconds : %f", meters, seconds);
         //You can use here to show the speed info by each second changing.
@@ -58,13 +56,13 @@
     }];
     
     //This headingHandler Block will happen in your touching the heading-button on the left-top of map.
-    [self.krGpsTracker setHeadingHandler:^
+    [_krGpsTracker setHeadingHandler:^
     {
         //NSLog(@"You Click the Heading-Button on the Map Left-Top.");
     }];
     
     //This gpsSingalHandler Block will happen with in the location keep in changing.
-    [self.krGpsTracker setGpsSingalHandler:^(BOOL hasSingal, KRGpsSingalStrength singalStrength, CLLocation *location)
+    [_krGpsTracker setGpsSingalHandler:^(BOOL hasSingal, KRGpsSingalStrength singalStrength, CLLocation *location)
     {
         NSString *_singalText = [_blockKrGpsTracker catchLimitedGpsSingalStrengthStringWithLocation:location];
         [_singalTextLabel setText:_singalText];
@@ -105,9 +103,9 @@
 #pragma --mark IBActions
 -(IBAction)toggleTracking:(id)sender
 {
-    if( self.krGpsTracker.isTracking )
+    if( _krGpsTracker.isTracking )
     {
-        [self.krGpsTracker stopTrackingWithCompletionHandler:^(CGFloat ranMeters, CGFloat ranKilometers, CGFloat ranMiles, CGFloat speedKilometersPerHour, CGFloat speedMilesPerHour) {
+        [_krGpsTracker stopTrackingWithCompletionHandler:^(CGFloat ranMeters, CGFloat ranKilometers, CGFloat ranMiles, CGFloat speedKilometersPerHour, CGFloat speedMilesPerHour) {
             NSString *message = [NSString stringWithFormat:@"Distance : %.02f km, %.02f mi.\nSpeed: %.02f km/h, %.02f mi/h",
                                  ranKilometers,
                                  ranMiles,
@@ -125,26 +123,26 @@
     }
     else
     {
-        [self.krGpsTracker start];
+        [_krGpsTracker start];
     }
 }
 
 -(IBAction)resetMap:(id)sender
 {
-    [self.krGpsTracker resetMap];
+    [_krGpsTracker resetMap];
 }
 
 -(IBAction)selectMapMode:(id)sender
 {
     //取得分割按鈕的個別按鈕索引 : 目前是哪一個按鈕被按下
     int index = [sender selectedSegmentIndex];
-    [self.krGpsTracker selectMapMode:index];
+    [_krGpsTracker selectMapMode:index];
 }
 
 -(IBAction)hasGpsSingal:(id)sender
 {
     NSString *_singalSituation = @"";
-    BOOL _hasGpsSingal = [self.krGpsTracker hasGpsSingal];
+    BOOL _hasGpsSingal = [_krGpsTracker hasGpsSingal];
     if( _hasGpsSingal )
     {
         _singalSituation = @"Singal Alive.";

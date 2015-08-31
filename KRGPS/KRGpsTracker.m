@@ -1,31 +1,18 @@
 //
 //  KRGpsTracker.m
-//  KRGpsTracker V1.3
+//  KRGpsTracker V1.4
 //
 //  Created by Kalvar on 13/7/7.
-//  Copyright (c) 2013年 Kuo-Ming Lin. All rights reserved.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin. All rights reserved.
 //
 
 #import "KRGpsTracker.h"
 
 @interface KRGpsTracker ()
 
-@property (nonatomic, strong) KRGpsTrackingView *_trackingMapView;
-@property (nonatomic, strong) NSTimer *_timer;
-@property (nonatomic, assign) CGFloat _keepTime;
-
-@end
-
-@interface KRGpsTracker (fixPrivate)
-
--(void)_initWithVars;
--(void)_remove;
--(UIImage *)_imageNoCacheWithName:(NSString *)_imageName;
--(void)_headingButtonAction:(id)_sender;
--(void)_makeHeadingIconButton;
--(void)_keepCounting;
--(void)_startTimer;
--(void)_stopTimer;
+@property (nonatomic, strong) KRGpsTrackingView *trackingMapView;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) CGFloat keepTime;
 
 @end
 
@@ -45,17 +32,18 @@
     self.runningSeconds         = 0.0f;
     self.changeHandler          = nil;
     self.headingHandler         = nil;
-    self._timer                 = nil;
-    self._keepTime              = 0.0f;
+    self.timer                  = nil;
+    self.keepTime               = 0.0f;
+    self.arrowThresold          = 0.0f;
 }
 
 -(void)_remove
 {
     self.isTracking  = NO;
-    if( self._trackingMapView )
+    if( self.trackingMapView )
     {
-        [self._trackingMapView removeFromSuperview];
-        self._trackingMapView = nil;
+        [self.trackingMapView removeFromSuperview];
+        self.trackingMapView = nil;
     }
 }
 
@@ -82,85 +70,57 @@
             [self.headingButton removeFromSuperview];
         }
     }
-    UIImage *_image = [self _imageNoCacheWithName:@"arrow_heading.png"];
-    headingButton   = [UIButton buttonWithType:UIButtonTypeCustom];
-    [headingButton setFrame:CGRectMake(5.0f, 5.0f, _image.size.width, _image.size.height)];
-    [headingButton setImage:_image forState:UIControlStateNormal];
-    [headingButton addTarget:self
-                      action:@selector(_headingButtonAction:)
-            forControlEvents:UIControlEventTouchUpInside];
-    [self.mapView addSubview:headingButton];
+    UIImage *_image    = self.headingImage;
+    self.headingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.headingButton setFrame:CGRectMake(5.0f, 5.0f, _image.size.width, _image.size.height)];
+    [self.headingButton setImage:_image forState:UIControlStateNormal];
+    [self.headingButton addTarget:self
+                           action:@selector(_headingButtonAction:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    [self.mapView addSubview:self.headingButton];
 }
 
 #pragma --mark NSTimers
 -(void)_keepCounting
 {
-    ++self._keepTime;
+    ++self.keepTime;
     if( self.realTimeHandler )
     {
-        self.realTimeHandler(self.ranMeters, self._keepTime);
+        self.realTimeHandler(self.ranMeters, self.keepTime);
     }
 }
 
 -(void)_startTimer
 {
     [self _stopTimer];
-    self._timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_keepCounting) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(_keepCounting) userInfo:nil repeats:YES];
 }
 
 -(void)_stopTimer
 {
-    if( self._timer )
+    if( self.timer )
     {
-        [self._timer invalidate];
-        self._timer = nil;
+        [self.timer invalidate];
+        self.timer = nil;
     }
-    self._keepTime  = 0.0f;
+    self.keepTime  = 0.0f;
 }
 
 @end
 
 @implementation KRGpsTracker
 
-@synthesize mapView;
-@synthesize trackingItem;
-@synthesize resetItem;
-@synthesize isTracking;
-@synthesize locationManager;
-@synthesize startDate;
-@synthesize heading;
-@synthesize startTrackingTitle;
-@synthesize stopTrackingTitle;
-@synthesize ranMeters = _ranMeters;
-@synthesize ranKilometers;
-@synthesize ranMiles;
-@synthesize ranSpeed;
-@synthesize speedKilometersPerHour;
-@synthesize speedMilesPerHour;
-@synthesize showCompletionAlert;
-@synthesize headingButton;
-@synthesize runningSeconds   = _runningSeconds;
-@synthesize changeHandler    = _changeHandler;
-@synthesize headingHandler   = _headingHandler;
-@synthesize gpsSingalHandler = _gpsSingalHandler;
-//
-@synthesize _trackingMapView;
-@synthesize _timer;
-
-
-+(KRGpsTracker *)sharedManager
++(instancetype)sharedTracker
 {
     static dispatch_once_t pred;
     static KRGpsTracker *_singleton = nil;
     dispatch_once(&pred, ^{
         _singleton = [[KRGpsTracker alloc] init];
-        [_singleton _initWithVars];
     });
     return _singleton;
-    //return [[self alloc] init];
 }
 
--(id)init
+-(instancetype)init
 {
     self = [super init];
     if( self )
@@ -174,58 +134,68 @@
 -(void)initialize
 {
     [self _remove];
-    _trackingMapView = [[KRGpsTrackingView alloc] initWithFrame:self.mapView.frame];
-    _trackingMapView.superMapView = self.mapView;
+    _trackingMapView               = [[KRGpsTrackingView alloc] initWithFrame:_mapView.frame];
+    _trackingMapView.superMapView  = _mapView;
+    _trackingMapView.arrowThresold = _arrowThresold;
+    _trackingMapView.arrowImage    = _arrowImage;
+    
     //NSLog(@"self.subviews : %@", self.mapView.subviews);
     //將 trackingMapView 寫在 MapView 的觸碰控制層底下，這樣就能避免無法操作手勢的問題
-    [[[self.mapView subviews] objectAtIndex:0] addSubview:_trackingMapView];
-    //[self.mapView addSubview:_trackingMapView];
+    [[[_mapView subviews] objectAtIndex:0] addSubview:_trackingMapView];
+    
     [self _makeHeadingIconButton];
+    
     //設定 MapView 的委派
-    self.mapView.delegate          = self._trackingMapView;
+    _mapView.delegate          = _trackingMapView;
     //允許縮放地圖
-    self.mapView.zoomEnabled       = YES;
+    _mapView.zoomEnabled       = YES;
     //允許捲動地圖
-    self.mapView.scrollEnabled     = YES;
+    _mapView.scrollEnabled     = YES;
     //以小藍點顯示使用者目前的位置
-    self.mapView.showsUserLocation = YES;
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
+    _mapView.showsUserLocation = YES;
+    _locationManager           = [[CLLocationManager alloc] init];
+    //For iOS 8
+    if([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)])
+    {
+        [_locationManager requestAlwaysAuthorization]; //永久授權, For background access
+        //[locationManager requestWhenInUseAuthorization]; //使用中授權, For foreground access
+    }
+    _locationManager.delegate  = self;
 }
 
 -(void)start
 {
     //本來就是追蹤停止的狀態
-    if( !isTracking )
+    if( !_isTracking )
     {
         //加入蓋上來的 TrackingMapView
         //[self.mapView addSubview:trackingMapView];
         //設定為啟動追蹤
-        isTracking = YES;
-        self.mapView.scrollEnabled = NO;
-        self.mapView.zoomEnabled   = NO;
+        _isTracking            = YES;
+        _mapView.scrollEnabled = NO;
+        _mapView.zoomEnabled   = NO;
         //iPhone 清醒中
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-        self.trackingItem.title = self.stopTrackingTitle;
-        _ranMeters = 0.0f;
+        _trackingItem.title    = _stopTrackingTitle;
+        _ranMeters             = 0.0f;
         //取得追蹤初始時間
-        startDate = [NSDate date];
+        _startDate             = [NSDate date];
         //設定定位的準確性 : 最高
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         //開始定位
-        [locationManager startUpdatingLocation];
+        [_locationManager startUpdatingLocation];
         //設定當使用者的位置超出 X 公尺後才呼叫其他定位方法 :: 預設為 kCLDistanceFilterNone
-        locationManager.distanceFilter = 10.0f;
+        _locationManager.distanceFilter = 10.0f;
         //設定方向過濾方式
-        locationManager.headingFilter = kCLHeadingFilterNone;
+        _locationManager.headingFilter  = kCLHeadingFilterNone;
         //啟動指南針方向定位
-        [locationManager startUpdatingHeading];
+        [_locationManager startUpdatingHeading];
         //啟動計時
         [self _startTimer];
     }
 }
 
--(void)initializeAndStart
+-(void)initialStart
 {
     [self initialize];
     [self start];
@@ -234,38 +204,38 @@
 -(void)stop
 {
     [self _stopTimer];
-    isTracking = NO;
+    _isTracking = NO;
     //啟動 iPhone 睡眠模式
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-    self.trackingItem.title = self.startTrackingTitle;
+    _trackingItem.title = _startTrackingTitle;
     //停止定位
-    [locationManager stopUpdatingLocation];
+    [_locationManager stopUpdatingLocation];
     //停止取得方位
-    [locationManager stopUpdatingHeading];
+    [_locationManager stopUpdatingHeading];
     //移除蓋上來的 TrackingMapView
     //[self._trackingMapView removeFromSuperview];
     //允許 MapView 被捲動
-    self.mapView.scrollEnabled  = YES;
+    _mapView.scrollEnabled  = YES;
     //允許 MapView 被縮放
-    self.mapView.zoomEnabled    = YES;
-    CGFloat _time               = self.runningSeconds;
-    self.ranKilometers          = _ranMeters / 1000;
-    self.ranMiles               = _ranMeters * 0.00062f;
-    self.speedKilometersPerHour = _ranMeters * 3.6f / _time;
-    self.speedMilesPerHour      = _ranMeters * 2.2369f / _time;
+    _mapView.zoomEnabled    = YES;
+    CGFloat _time           = _runningSeconds;
+    _ranKilometers          = _ranMeters / 1000;
+    _ranMiles               = _ranMeters * 0.00062f;
+    _speedKilometersPerHour = _ranMeters * 3.6f / _time;
+    _speedMilesPerHour      = _ranMeters * 2.2369f / _time;
 }
 
 -(void)stopTrackingWithCompletionHandler:(KRGpsTrackerCompletionHandler)_completionHandler
 {
     //正在 GPS 追蹤中
-    if( isTracking )
+    if( _isTracking )
     {
         [self stop];
         if( _completionHandler )
         {
             _completionHandler(self.ranMeters, self.ranKilometers, self.ranMiles, self.speedKilometersPerHour, self.speedMilesPerHour);
         }
-        if( self.showCompletionAlert )
+        if( _showCompletionAlert )
         {
             NSString *_message = [NSString stringWithFormat:@"Distance : %.02f km, %.02f mi.\nSpeed: %.02f km/h, %.02f mi/h",
                                   self.ranKilometers,
@@ -286,7 +256,7 @@
 
 -(void)resetMap
 {
-    [self._trackingMapView reset];
+    [_trackingMapView reset];
 }
 
 -(void)selectMapMode:(MKMapType)selectedMapType
@@ -295,15 +265,15 @@
     {
         case 0:
             //標準模式
-            self.mapView.mapType = MKMapTypeStandard;
+            _mapView.mapType = MKMapTypeStandard;
             break;
         case 1:
             //衛星圖象
-            self.mapView.mapType = MKMapTypeSatellite;
+            _mapView.mapType = MKMapTypeSatellite;
             break;
         case 2:
             //混合圖象
-            self.mapView.mapType = MKMapTypeHybrid;
+            _mapView.mapType = MKMapTypeHybrid;
             break;
         default:
             break;
@@ -445,9 +415,6 @@
 }
 
 #pragma MapViewDelegate
-
-//#error 要再整合 MapView 的功能進來
-
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     //不需要任何的大頭針註解
@@ -474,23 +441,28 @@
 
 #pragma CLLocationManagerDelegate
 /*
- * @ 已持續更新 GPS 位置
- *   - 當使用者取得新的地理位置資訊後觸發
+ * @ 已更新 GPS 位置
+ *   - 來自於啟動 [_locationManager startUpdatingLocation]; 會持續更新這裡，每秒 1 ~ 4 次不等，依當下的 GPS 訊號而定，
+ *     可參考 Golf、 Sports、GpsTrakcer、MapKit
  */
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
+    CLLocation *newLocation = [locations lastObject];
+    CLLocation *oldLocation = [_trackingMapView getLastLocation];
     //加入一個新定位點
     [_trackingMapView addPoint:newLocation];
     
     //計算新舊位置的距離 ( 回傳公尺 )
-    if(oldLocation != nil)
+    if( nil != oldLocation )
     {
         _ranMeters += [newLocation distanceFromLocation:oldLocation];
     }
+    
     if( _changeHandler )
     {
         self.changeHandler(_ranMeters, self.runningSeconds, newLocation);
     }
+    
     if( _gpsSingalHandler )
     {
         self.gpsSingalHandler( [self hasGpsSingal], [self singalStrength], newLocation );
@@ -506,19 +478,7 @@
     MKCoordinateSpan span = MKCoordinateSpanMake(0.005, 0.005);
     //製作一個圍繞在新區域中心的定位區域
     MKCoordinateRegion region = MKCoordinateRegionMake(newLocation.coordinate, span);
-    [self.mapView setRegion:region animated:YES];
-}
-
-/*
- * @ 已更新 GPS 位置
- *   - 來自於啟動 [_locationManager startUpdatingLocation]; 會持續更新這裡，每秒 1 ~ 4 次不等，依當下的 GPS 訊號而定，
- *     可參考 Golf、 Sports、GpsTrakcer、MapKit
- */
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    
-#warning 待驗證本方法
-    
+    [_mapView setRegion:region animated:YES];
 }
 
 /*
@@ -538,11 +498,11 @@
     float rotation = newHeading.trueHeading * M_PI / 180;
     //依照指北針的角度同步旋轉 MapView 向北
     //也能放上一個指北針的圖，旋轉它就行
-    if( self.headingButton )
+    if( _headingButton )
     {
-        self.headingButton.transform = CGAffineTransformIdentity;
-        CGAffineTransform transForm  = CGAffineTransformMakeRotation(-rotation);
-        self.headingButton.transform = transForm;
+        _headingButton.transform    = CGAffineTransformIdentity;
+        CGAffineTransform transForm = CGAffineTransformMakeRotation(-rotation);
+        _headingButton.transform    = transForm;
     }
     
     /*
@@ -584,9 +544,7 @@
  */
 -(void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager
 {
-    
-#warning 待驗證本方法
-    
+    // ...
 }
 
 /*
@@ -595,9 +553,7 @@
  */
 -(void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
 {
-    
-#warning 待驗證本方法
-    
+    // ...
 }
 
 #pragma --mark Getter
@@ -623,12 +579,12 @@
 
 -(CGFloat)runningSeconds
 {
-    return -[startDate timeIntervalSinceNow];
+    return -[_startDate timeIntervalSinceNow];
 }
 
 -(BOOL)isGpsNice
 {
-    return (self.locationManager.location.horizontalAccuracy <= 100.0f);
+    return (_locationManager.location.horizontalAccuracy <= 100.0f);
 }
 
 
