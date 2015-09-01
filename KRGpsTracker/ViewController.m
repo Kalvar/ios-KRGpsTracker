@@ -19,11 +19,12 @@
 {
     [super viewDidLoad];
     
-    _krGpsTracker              = [[KRGpsTracker alloc] init];
-    _krGpsTracker.mapView      = _outMapView;
-    _krGpsTracker.trackingItem = _outTrackingItem;
-    _krGpsTracker.headingImage = [UIImage imageNamed:@"arrow_heading.png"];
-    _krGpsTracker.arrowImage   = [UIImage imageNamed:@"arrow_2.png"];
+    _krGpsTracker               = [[KRGpsTracker alloc] init];
+    _krGpsTracker.mapView       = _outMapView;
+    _krGpsTracker.trackingItem  = _outTrackingItem;
+    _krGpsTracker.headingImage  = [UIImage imageNamed:@"arrow_heading.png"];
+    _krGpsTracker.arrowImage    = [UIImage imageNamed:@"arrow_2.png"];
+    _krGpsTracker.arrowThresold = 50.0f;
     [_krGpsTracker initialize];
     
     //If you wanna use the IBOutlet in block method, that you need to use __block to declare a non-retain object to use.
@@ -135,8 +136,7 @@
 -(IBAction)selectMapMode:(id)sender
 {
     //取得分割按鈕的個別按鈕索引 : 目前是哪一個按鈕被按下
-    int index = [sender selectedSegmentIndex];
-    [_krGpsTracker selectMapMode:index];
+    [_krGpsTracker selectMapMode:[sender selectedSegmentIndex]];
 }
 
 -(IBAction)hasGpsSingal:(id)sender

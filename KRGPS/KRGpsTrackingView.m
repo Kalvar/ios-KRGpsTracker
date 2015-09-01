@@ -18,8 +18,8 @@
     //初始化 visitedPoints
     self.visitedPoints   = [[NSMutableArray alloc] init];
     self.superMapView    = nil;
-    //預設箭頭在距離多少公尺時出現
-    self.arrowThresold   = 50.0f;
+    //預設箭頭在距離多少公尺 (m) 時出現
+    self.arrowThresold   = 0.0f; //50.0f; // Default
 }
 
 -(UIImage *)_imageNameNoCache:(NSString *)_imageName
