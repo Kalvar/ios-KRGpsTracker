@@ -1,4 +1,4 @@
-## What
+## About
 
 KRGpsTracker is a route tracker, it is like Nike+, RunKeeper that running tracker apps.
 
