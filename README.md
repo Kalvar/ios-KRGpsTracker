@@ -3,9 +3,11 @@
 <img src="https://dl.dropbox.com/u/83663874/GitHubs/KRGpsTracker-1.png" alt="KRGpsTracker" title="KRGpsTracker" style="margin: 20px;" class="center" /> &nbsp;
 <img src="https://dl.dropbox.com/u/83663874/GitHubs/KRGpsTracker-2.png" alt="KRGpsTracker" title="KRGpsTracker" style="margin: 20px;" class="center" /> 
 
-## How To Get Started
+<br />
 
 KRGpsTracker is a route tracker, it is like Nike+, RunKeeper that running tracker apps.
+
+## How To Get Started
 
 ``` objective-c
 #import "KRGpsTracker.h"
