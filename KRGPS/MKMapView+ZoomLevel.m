@@ -40,7 +40,7 @@
                              centerCoordinate:(CLLocationCoordinate2D)centerCoordinate
                                  andZoomLevel:(double)zoomLevel
 {
-    NSLog(@"in custom zoomlevel-->%f",zoomLevel);
+    //NSLog(@"in custom zoomlevel-->%f",zoomLevel);
     // convert center coordiate to pixel space
     double centerPixelX = [self longitudeToPixelSpaceX:centerCoordinate.longitude];
     double centerPixelY = [self latitudeToPixelSpaceY:centerCoordinate.latitude];

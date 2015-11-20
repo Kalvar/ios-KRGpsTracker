@@ -286,12 +286,7 @@
  */
 -(BOOL)isMultitaskingSupported
 {
-    BOOL _isSupported = NO;
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
-    {
-        _isSupported = [[UIDevice currentDevice] isMultitaskingSupported];
-    }
-    return _isSupported;
+    return ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)]) ? [[UIDevice currentDevice] isMultitaskingSupported] : NO;
 }
 
 /*

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E0F8A811BCBF4CD005E0E85 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0F8A801BCBF4CD005E0E85 /* CoreGraphics.framework */; };
 		8EA1866517C7658700E55FBF /* arrow_heading.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866317C7658600E55FBF /* arrow_heading.png */; };
 		8EA1866617C7658700E55FBF /* arrow_heading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1866417C7658600E55FBF /* arrow_heading@2x.png */; };
 		8EF48302178B8F1A0038DB64 /* arrow_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF482FE178B8F1A0038DB64 /* arrow_1.png */; };
@@ -20,7 +21,6 @@
 		8EF6C3C91B9498D300945240 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6C3C61B9498D300945240 /* MKMapView+ZoomLevel.m */; };
 		8EFB5836177718B6000DE086 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5835177718B6000DE086 /* UIKit.framework */; };
 		8EFB5838177718B6000DE086 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5837177718B6000DE086 /* Foundation.framework */; };
-		8EFB583A177718B6000DE086 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFB5839177718B6000DE086 /* CoreGraphics.framework */; };
 		8EFB5840177718B6000DE086 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EFB583E177718B6000DE086 /* InfoPlist.strings */; };
 		8EFB5842177718B6000DE086 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB5841177718B6000DE086 /* main.m */; };
 		8EFB5846177718B6000DE086 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFB5845177718B6000DE086 /* AppDelegate.m */; };
@@ -32,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E0F8A801BCBF4CD005E0E85 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8EA1866317C7658600E55FBF /* arrow_heading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_heading.png; sourceTree = "<group>"; };
 		8EA1866417C7658600E55FBF /* arrow_heading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_heading@2x.png"; sourceTree = "<group>"; };
 		8EF482FE178B8F1A0038DB64 /* arrow_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_1.png; sourceTree = "<group>"; };
@@ -49,7 +50,6 @@
 		8EFB5832177718B6000DE086 /* KRGpsTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRGpsTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EFB5835177718B6000DE086 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8EFB5837177718B6000DE086 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8EFB5839177718B6000DE086 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8EFB583D177718B6000DE086 /* KRGpsTracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KRGpsTracker-Info.plist"; sourceTree = "<group>"; };
 		8EFB583F177718B6000DE086 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8EFB5841177718B6000DE086 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -69,11 +69,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E0F8A811BCBF4CD005E0E85 /* CoreGraphics.framework in Frameworks */,
 				8EF559031789B5EF00B3F563 /* MapKit.framework in Frameworks */,
 				8EF559011789B5EB00B3F563 /* CoreLocation.framework in Frameworks */,
 				8EFB5836177718B6000DE086 /* UIKit.framework in Frameworks */,
 				8EFB5838177718B6000DE086 /* Foundation.framework in Frameworks */,
-				8EFB583A177718B6000DE086 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,7 +128,7 @@
 				8EF558FF1789B5D900B3F563 /* MapKit */,
 				8EFB5835177718B6000DE086 /* UIKit.framework */,
 				8EFB5837177718B6000DE086 /* Foundation.framework */,
-				8EFB5839177718B6000DE086 /* CoreGraphics.framework */,
+				8E0F8A801BCBF4CD005E0E85 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
